@@ -4,6 +4,8 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN DEBIAN_FRONTEND=noninteractive 
 RUN apt install -y \
 	autoconf \
+	automake \
+	m4 \
 	gcc \
 	libc6 \
 	make \
