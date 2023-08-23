@@ -1,8 +1,8 @@
 FROM debian:10
-RUN apt update -y
+RUN apt-get update -y
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive 
-RUN apt install -y \
+RUN apt-get install -y \
 	autoconf \
 	automake \
 	m4 \
