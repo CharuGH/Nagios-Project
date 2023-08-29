@@ -69,12 +69,4 @@ RUN chmod +x /start.sh
 
 CMD [ "/start.sh" ]
 
-# Add Nagios node
 
-RUN apt-get update && \
-    apt-get install -y nagios-plugins nagios-nrpe-server && \
-    apt-get clean
-
-COPY charushilad/nagios /etc/nagios/
-
-CMD ["/usr/sbin/nagios", "-d", "/etc/nagios/nagios.cfg"]
