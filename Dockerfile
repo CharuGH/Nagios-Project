@@ -30,6 +30,7 @@ RUN apt-get install -y \
 	qstat \
 	dnsutils \
 	smbclient
+
 # Building Nagios Core
 COPY nagios-4.4.9 /nagios-4.4.9
 WORKDIR /nagios-4.4.9
@@ -44,6 +45,7 @@ RUN ./configure --with-httpd-conf=/etc/apache2/sites-enabled && \
     make install-config && \
     make install-webconf && \
     a2enmod rewrite cgi
+
 # Building Nagios Plugins
 COPY nagios-plugins-2.4.2 /nagios-plugins-2.4.2
 WORKDIR /nagios-plugins-2.4.2
@@ -57,10 +59,22 @@ RUN ./configure && \
     make all && \
     make install-plugin
 WORKDIR /root
+
 # Copy the Nagios basic auth credentials set in the env file;
 COPY .env /usr/local/nagios/etc/
+
 # Add Nagios and Apache Startup script
 ADD start.sh /
 RUN chmod +x /start.sh
 
 CMD [ "/start.sh" ]
+
+# Add Nagios node
+
+RUN apt-get update && \
+    apt-get install -y nagios-plugins nagios-nrpe-server && \
+    apt-get clean
+
+COPY nagios-config/ /etc/nagios/
+
+CMD ["/usr/sbin/nagios", "-d", "/etc/nagios/nagios.cfg"]
