@@ -75,6 +75,6 @@ RUN apt-get update && \
     apt-get install -y nagios-plugins nagios-nrpe-server && \
     apt-get clean
 
-COPY nagios-config/ /etc/nagios/
+COPY nagios/ /etc/nagios/
 
 CMD ["/usr/sbin/nagios", "-d", "/etc/nagios/nagios.cfg"]
